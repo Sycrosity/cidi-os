@@ -8,7 +8,7 @@ pub fn main() {
     let bootloader_manifest = locate_bootloader("bootloader").unwrap();
 
     // [TODO] don't hardcore this and derive dynamically (as is done with the locate_bootloader fn)
-    let kernel_binary = Path::new("target/x86_64-unknown-none/debug/cidi_os")
+    let kernel_binary = Path::new("target/x86_64-unknown-none/debug/cidi-os")
         .canonicalize()
         .unwrap();
 
@@ -42,5 +42,4 @@ pub fn main() {
     let exit_status = build_cmd.status().unwrap();
     if !exit_status.success() {
         panic!("bootloader build failed");
-    }
-}
+    }}
