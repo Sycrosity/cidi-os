@@ -24,5 +24,16 @@ entry_point!(kernel_main);
 ///
 /// uses the [entry_point] macro, which provides a type checked way to define a non `pub extern "C" fn` or `#[no_mangle]` entry point function - it checks it at compile time so there is no runtime error (unlike with `pub extern "C" fn`).
 fn kernel_main(boot_info: &'static mut BootInfo) -> ! {
+    if let Some(framebuffer) = boot_info.framebuffer.as_mut() {
+        let mut value = 0x90;
+        let mut yesno = true;
+        for byte in framebuffer.buffer_mut() {
+            yesno = !yesno;
+            *byte = value;
+            if yesno {
+                value = value.wrapping_add(1);
+            }
+        }
+    }
     loop {}
 }
