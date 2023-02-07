@@ -42,4 +42,5 @@ pub fn main() {
     let exit_status = build_cmd.status().unwrap();
     if !exit_status.success() {
         panic!("bootloader build failed");
-    }}
+    }
+}

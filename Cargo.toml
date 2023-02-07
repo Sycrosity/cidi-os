@@ -12,6 +12,7 @@ default-target = "x86_64-unknown-none"
 members = ["boot"]
 
 [dependencies]
+#update this to 0.11 at some point
 bootloader = "0.10.13"
 
 #as we don't have stack unwinding, we cannot implement the 

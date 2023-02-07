@@ -1,0 +1,65 @@
+[env]
+CARGO_MAKE_EXTEND_WORKSPACE_MAKEFILE = true
+
+[config]
+skip_core_tasks = true
+default_to_workspace = false
+
+[tasks.run]
+dependencies = [
+    "build-kernel",
+    "build-bootloader",
+    "run-qemu",
+]
+
+[tasks.run-qemu]
+command = "qemu-system-x86_64"
+args = ["-drive", "format=raw,file=target/x86_64-unknown-none/debug/boot-uefi-cidi-os.img", "-bios", "tools/OVMF-pure-efi.fd"]
+
+
+[tasks.build]
+dependencies = [
+    "build-kernel",
+    "build-bootloader",
+]
+
+[tasks.build-kernel]
+command = "cargo"
+args = ["build"]
+
+[tasks.build-bootloader]
+command = "cargo"
+args = ["run", "-p", "boot"]
+
+# stuff for future github actions satisfaction
+
+[tasks.fmt]
+command = "cargo"
+args = ["fmt"]
+
+[tasks.check]
+command = "cargo"
+args = ["check", "--features", "dev"]
+
+[tasks.test]
+command = "cargo"
+args = ["test", "--features", "dev"]
+
+[tasks.clippy]
+command = "cargo"
+args = ["clippy", "--features", "dev"]
+
+#test suite 
+
+[tasks.test-suite]
+dependencies = [
+    "test",
+]
+
+[tasks.actions]
+dependencies = [
+    { name = "fmt", fork = true  },
+    { name = "check", fork = true  },
+    { name = "clippy", fork = true  },
+    { name = "test-suite", fork = true  },
+]

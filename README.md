@@ -23,6 +23,13 @@ $ qemu-system-x86_64 -drive \
       -bios tools/OVMF-pure-efi.fd
 ```
 
+alternatively (although this is a clunky alternative), [install cargo-make](https://github.com/sagiegurari/cargo-make) and run:
+```bash
+cargo make run
+```
+
+~~**HOWEVER** - for whatever reason, running qemu within an embedded terminal like the vs-code terminal doesn't always work and may just not open a window for the OS - try and run this on your computers inbuilt terminal.~~
+
 -------
 
 ## License
