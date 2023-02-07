@@ -1,8 +1,10 @@
 #![no_std] // don't link the Rust standard library
 #![no_main] // disable all Rust-level entry points
-#![allow(clippy::empty_loop)] //
+#![allow(clippy::empty_loop)] //removes clippy errors from empty loops (which we will have at the start)
 
 use core::panic::PanicInfo;
+
+use bootloader::{entry_point, BootInfo};
 
 /// This function is called on panic, and in future should unwind and gracefully stop.
 ///
@@ -16,12 +18,11 @@ fn panic(_info: &PanicInfo) -> ! {
     loop {}
 }
 
-///`#[no_mangle]` makes sure that rust's default compiler [name mangling](https://en.wikipedia.org/wiki/Name_mangling) is disabled and the function is really called _start() (required as the default entry point of most systems.)
+entry_point!(kernel_main);
+
+/// this should also return a divering function, much like the panic_handler [panic] also defined, as the entry point is never called and should instead invoke the [`exit` system call](https://en.wikipedia.org/wiki/Exit_(system_call)) of the OS (which we have not yet defined).
 ///
-/// this function has to be a `pub extern "C" fn` as it needs to use the [C calling convention](https://en.wikipedia.org/wiki/Calling_convention) for this function (instead of rust's unspecified compiler changed calling convention).
-///
-/// this should also return a divering function, much like the panic_handler [panic] also defined, as the entry point is never called and should instead invoke the (`exit` system call)[https://en.wikipedia.org/wiki/Exit_(system_call)] of the OS (which we have not yet defined).
-#[no_mangle]
-pub extern "C" fn _start() -> ! {
+/// uses the [entry_point] macro, which provides a type checked way to define a non `pub extern "C" fn` or `#[no_mangle]` entry point function - it checks it at compile time so there is no runtime error (unlike with `pub extern "C" fn`).
+fn kernel_main(boot_info: &'static mut BootInfo) -> ! {
     loop {}
 }
