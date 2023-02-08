@@ -31,7 +31,7 @@ args = ["build"]
 command = "cargo"
 args = ["run", "-p", "boot"]
 
-# stuff for future github actions satisfaction
+#stuff for future github actions satisfaction
 
 [tasks.fmt]
 command = "cargo"
@@ -39,15 +39,16 @@ args = ["fmt"]
 
 [tasks.check]
 command = "cargo"
-args = ["check", "--features", "dev"]
+args = ["check"]
 
+#will not work yet, as this is no std we must impliment this by scratch
 [tasks.test]
 command = "cargo"
-args = ["test", "--features", "dev"]
+args = ["test"]
 
 [tasks.clippy]
 command = "cargo"
-args = ["clippy", "--features", "dev"]
+args = ["clippy"]
 
 #test suite 
 
